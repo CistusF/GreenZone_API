@@ -2,6 +2,7 @@ import { coordEventObject } from "../../interfaces";
 import { logger } from "../../utils/etc";
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+    // This feature created by GPT 3.5
     const toRadians = (degree: number) => degree * (Math.PI / 180);
 
     const R = 6371; // 지구의 반지름 (킬로미터 단위)

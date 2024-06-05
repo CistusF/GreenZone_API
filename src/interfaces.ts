@@ -12,6 +12,7 @@ export interface roomsInterface {
     title: string;
 };
 
+// Park Seonu<harusame3144@users.noreply.github.com> help class to zod
 export const socketMember = z.object({
     id: z.string(),
     user_name: z.string(),
