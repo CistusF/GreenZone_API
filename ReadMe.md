@@ -12,6 +12,8 @@ And using typescript and zod for typings.
 - Coords
     - update
 - Manage
+    - announce
+    - kick
     - rename
 - Room
     - create
