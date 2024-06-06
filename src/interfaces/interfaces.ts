@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import z from "zod";
 
 export enum logType {
-    error,
+    error = -1,
     warn,
     success,
 };
