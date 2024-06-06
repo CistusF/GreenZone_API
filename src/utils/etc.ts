@@ -23,6 +23,6 @@ export const logger = (log: string | string[], title?: string, typeCode?: logTyp
                 logColor = "green";
                 break;
         };
-        console.log(ctx`{bold.${logColor} ✪} [%s / %s] : %s`, "TEST" ?? "GreenZone", time, "test message");
+        console.log(ctx`{bold.${logColor} ✪} [%s / %s] : %s`, title ?? "GreenZone", time, log);
     }
 };
