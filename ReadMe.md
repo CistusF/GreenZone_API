@@ -18,7 +18,7 @@ And using typescript and zod for typings.
     - update
 
 ## TODO?
-- [ ] Add set title feature
+- [x] Add set title feature
 - [ ] Add set safe area feature
 - [ ] Add send Anouncement feature
 - [ ] Add send warning feature
