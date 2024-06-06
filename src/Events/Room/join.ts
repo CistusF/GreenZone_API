@@ -1,24 +1,10 @@
-import { RoomInfo, roomInfoType, joinUserInfoType, roomEventObject, joinUserInfo } from "../../interfaces";
+import { joinUserInfo, joinUserInfoType, roomEventObject, roomInfoType } from "../../interfaces/roomEvent.interface";
 import { logger } from "../../utils/etc";
-
-function isString(obj: any): obj is string {
-    return typeof obj == "string"
-};
 
 function isJoinUserInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj is joinUserInfoType {
     if (typeof obj != "object") return false;
     try {
         joinUserInfo.parse(obj);
-        return true;
-    } catch {
-        return false;
-    };
-};
-
-function isRoomInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj is roomInfoType {
-    if (typeof obj != "object") return false;
-    try {
-        RoomInfo.parse(obj);
         return true;
     } catch {
         return false;
