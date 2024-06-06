@@ -9,13 +9,15 @@ We using `Socket.IO` and `Express`, `http` for socket server,
 And using typescript and zod for typings.
 
 ## API Features
+- Coords
+    - update
+- Manage
+    - rename
 - Room
     - create
     - find
     - info
     - join
-- Coords
-    - update
 
 ## TODO?
 - [x] Add set title feature
