@@ -1,12 +1,23 @@
 import { Socket } from "socket.io";
-import { roomEventObject, roomInfoType, roomsInterface } from "../../interfaces";
+import { roomsInterface } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
+import { RoomInfo, joinUserInfoType, roomEventObject, roomInfoType } from "../../interfaces/roomEvent.interface";
+
+function isRoomInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj is roomInfoType {
+    if (typeof obj != "object") return false;
+    try {
+        RoomInfo.parse(obj);
+        return true;
+    } catch {
+        return false;
+    };
+};
 
 // Create Room
 const createRoom: roomEventObject = {
     eventName: "create",
     run: ({socket, rooms, members}, room_info) => {
-        room_info = room_info as roomInfoType;
+        if (!isRoomInfoTypes(room_info)) return;
         const roomId = createRoomNumber(socket, rooms);
         rooms.push({room_number: roomId, title: room_info.title });
         socket.rooms.add(roomId);
