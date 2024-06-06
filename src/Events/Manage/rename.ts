@@ -1,6 +1,5 @@
 import { manageEventObject } from "../../interfaces/manageEvent.interface";
 
-// Create Room
 const rename: manageEventObject = {
     eventName: "rename",
     run: ({socket, rooms, members}, title) => {
