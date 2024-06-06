@@ -22,8 +22,8 @@ And using typescript and zod for typings.
 ## TODO?
 - [x] Add set title feature
 - [ ] Add set safe area feature
-- [ ] Add send Anouncement feature
+- [x] Add send Anouncement feature
 - [ ] Add send warning feature
-- [ ] Add kick member feature
+- [x] Add kick member feature
 - [ ] Add destroy room feature
-- [ ] Add get special member infomation feature
+- [ ] ~~Add get special member infomation feature~~
