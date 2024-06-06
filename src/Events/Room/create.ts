@@ -17,13 +17,13 @@ function isRoomInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj is 
 const createRoom: roomEventObject = {
     eventName: "create",
     run: ({socket, rooms, members}, room_info) => {
-        if (!isRoomInfoTypes(room_info)) return;
+        if (!isRoomInfoTypes(room_info)) return logger("Cannot found room information", "ROOM CREATOR", -1);
         const roomId = createRoomNumber(socket, rooms);
         rooms.push({room_number: roomId, title: room_info.title });
         socket.rooms.add(roomId);
         socket.join(roomId);
 
-        logger(["room code : " + roomId, "room name : " + room_info.title, "room owner tel : " + room_info.tel], "ROOM CREATOR");
+        logger(["room code : " + roomId, "room name : " + room_info.title, "room owner tel : " + room_info.tel], "ROOM CREATOR", 1);
 
         members.push({
             id: socket.id,

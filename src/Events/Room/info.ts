@@ -6,7 +6,7 @@ const roomInfo: roomEventObject = {
     run: ({ socket, rooms, members }, room_number) => {
         const room = rooms.find(i => i.room_number === room_number);
 
-        logger(socket.id + " requested room info about " + room_number, "ROOM INFO");
+        logger(socket.id + " requested room info about " + room_number, "ROOM INFO", 0);
         socket.emit("room_info_response", {
             status: 200,
             roomMembers: members.filter(i => i.room_number == room_number),

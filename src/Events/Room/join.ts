@@ -17,7 +17,7 @@ const roomJoin: roomEventObject = {
         if (!isJoinUserInfoTypes(join_user_info)) return;
         const room = rooms.find(i => i.room_number === join_user_info.room_number);
         if (!room) {
-            logger(socket.id + " / " + join_user_info.user_name + " Cannot join room " + join_user_info.room_number, "ROOM JOINER");
+            logger(socket.id + " / " + join_user_info.user_name + " Cannot join room " + join_user_info.room_number, "ROOM JOINER", -1);
             return socket.emit("error", {
                 status: 501,
                 content: "Failed to join room " + join_user_info.room_number
@@ -37,7 +37,7 @@ const roomJoin: roomEventObject = {
             content: true,
             title: room.title
         });
-        logger(socket.id + " / " + join_user_info.user_name + " joined room name " + room.title + " | " + join_user_info.room_number + " / " + join_user_info.user_tel, "ROOM JOINER");
+        logger(socket.id + " / " + join_user_info.user_name + " joined room name " + room.title + " | " + join_user_info.room_number + " / " + join_user_info.user_tel, "ROOM JOINER", 1);
     }
 };
 

@@ -6,7 +6,7 @@ const findRoom: roomEventObject = {
     run: ({ socket, rooms, members }, room_number) => {
         if (typeof room_number !== "string") return;
         if (rooms.findIndex(i => i.room_number == room_number) === -1) {
-            logger(socket.id + " Cannot find room " + room_number, "ROOM FINDER");
+            logger(socket.id + " Cannot find room " + room_number, "ROOM FINDER", -1);
             return socket.emit("error", {
                 status: 501,
                 content: "Can't find room " + room_number,
@@ -19,7 +19,7 @@ const findRoom: roomEventObject = {
             content: "room number " + room_number + " is found " + members.length + " Members in this room.",
             room_number: room_number
         });
-        logger(socket.id + " room number " + room_number + " is found " + members.length + " Members in this room.", "ROOM FINDER");
+        logger(socket.id + " room number " + room_number + " is found " + members.length + " Members in this room.", "ROOM FINDER", 1);
     }
 };
 
