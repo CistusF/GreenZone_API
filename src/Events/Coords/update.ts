@@ -29,7 +29,7 @@ const coordsUpdate: EventObject<coordsType> = {
         if (!memberData) return socket.emit("error", "Couldn't find member with id " + socket.id);
         memberData.x = coords.x;
         memberData.y = coords.y;
-        logger(`member: ${memberData.user_name} | ${memberData.id} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
+        logger(`member: ${memberData.user_name} | ${memberData.user_number} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
 
         if (memberData?.owner) {
             const roomMembersData = roomMembers.filter(i => !i.owner).map(({ user_name, user_number, x, y }) => {
