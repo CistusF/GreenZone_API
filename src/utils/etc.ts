@@ -1,4 +1,4 @@
-import { logType } from "../interfaces";
+import { logType } from "../interfaces/interfaces";
 import {} from 'chalk';
 
 export const logger = (log: string | string[], title?: string, type?: logType): void => {

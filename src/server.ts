@@ -1,8 +1,10 @@
 import { Socket, Server as ScoketServ } from 'socket.io';
 import { Server } from 'http';
-import { coordEventObject, roomEventObject, roomsInterface, socketMemberType } from './interfaces';
+import { roomsInterface, socketMemberType } from './interfaces/interfaces';
 import { logger } from './utils/etc';
 import { readdirSync } from 'fs';
+import { roomEventObject } from './interfaces/roomEvent.interface';
+import { coordEventObject } from './interfaces/coordEvent.interface';
 // import { createRoom, findRoom, joinRoom, roomInfo } from './utils/rooms';
 // import { coordUpdate } from './utils/coords';
 

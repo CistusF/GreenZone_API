@@ -1,4 +1,4 @@
-import { roomEventObject } from "../../interfaces";
+import { roomEventObject } from "../../interfaces/roomEvent.interface";
 import { logger } from "../../utils/etc";
 
 const findRoom: roomEventObject = {
