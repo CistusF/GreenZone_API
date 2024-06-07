@@ -59,8 +59,9 @@ export class SocketServer {
     }
 
     private onDisconnect(socket: Socket, reason: string) {
-        const member = members.find(i => i.id === socket.id);
-        if (!member?.owner) return;
+        const member = members.find(i => i.id === socket.id)!;
+        const room = rooms.find(i => i.room_number === member?.room_number);
+        if (room?.ownerId !== member.id) return;
         logger(member.room_number + " is destroyed", "ROOM DISTROY");
         const roomNumber = member?.room_number;
         if (roomNumber) {
