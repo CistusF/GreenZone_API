@@ -7,16 +7,19 @@ export enum logType {
     success,
 };
 
+export const boundaryInfo = z.object({
+    x: z.number().optional(),
+    y: z.number().optional(),
+    safety: z.number().optional(),
+    limit: z.number().optional(),
+});
+export type boundaryType = z.infer<typeof boundaryInfo>;
+
 export interface roomsInterface {
     ownerId: string,
     room_number: string;
     title: string;
-    boundary: {
-        x: number | null;
-        y: number | null;
-        safety: number;
-        limit: number;
-    };
+    boundary: boundaryType;
 };
 
 // Park Seonu<harusame3144@users.noreply.github.com> help class to zod
