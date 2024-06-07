@@ -17,22 +17,25 @@ const kick: manageEventObject = {
         };
 
         if (!target) {
-            socket.emit("manage_kick_response", {
+            socket.to(member.room_number).emit("event", {
                 status: 404,
+                type: "kick",
                 message: "Can't find member in this room."
             });
             logger("Can't find member in this room / user_number : " + user_number, "MANAGE", -1);
             return;
         };
 
-        socket.to(target.id).emit("kick_event", {
+        members.splice(members.indexOf(target), 1);
+        socket.to(target.id).emit("event", {
             status: 200,
-            message: "You are now not a member of this room.",
-            room_number: target.room_number
+            type: "kick",
+            message: "You are now not a member of this room."
         });
 
-        socket.emit("manage_kick_response", {
+        socket.emit("event", {
             status: 200,
+            type: "kick",
             message: "Member " + target.user_name + " has been kicked."
         });
 

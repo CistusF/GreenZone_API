@@ -6,8 +6,9 @@ const rename: manageEventObject = {
     run: ({socket, rooms, members}, title) => {
         const member = members.find(i => i.id === socket.id);
 
-        if (!member?.owner) return socket.emit("manage_rename_response", {
+        if (!member?.owner) return socket.emit("event", {
             status: 500,
+            type: "rename",
             message: "You are not allowed to rename this room."
         });
 
@@ -16,8 +17,10 @@ const rename: manageEventObject = {
         room.title = title;
 
         logger("Room renamed / " + oldTitle + " to " + room.title, "MANAGE", 1);
-        socket.to(room.room_number).emit("rename_title_event", {
-            title: title
+        socket.to(room.room_number).emit("event", {
+            status: 200,
+            type: "rename",
+            message: title
         });
     }
 };
