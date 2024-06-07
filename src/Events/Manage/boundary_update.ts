@@ -14,7 +14,7 @@ function isBoundaryType(obj: string | boundaryType): obj is boundaryType {
 
 const boundary_update: manageEventObject = {
     eventName: "boundary_update",
-    run: ({ socket, rooms, members }, boundaryData) => {
+    run: ({ socket, rooms }, boundaryData) => {
         if (!isBoundaryType(boundaryData)) {
             logger(["Wrong boundary data received", JSON.stringify(boundaryData)], "MANAGE", -1);
             socket.emit("event", {
@@ -40,7 +40,7 @@ const boundary_update: manageEventObject = {
         socket.to(room.room_number).emit("room_update", {
             status: 200,
             message: "boundary infomation has been updated",
-            boundaryData
+            room
         });
         logger(room.room_number + " Room's boundary has been updated", "MANAGE", 1);
     }

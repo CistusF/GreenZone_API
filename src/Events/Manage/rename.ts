@@ -17,10 +17,10 @@ const rename: manageEventObject = {
         room.title = title;
 
         logger("Room renamed / " + oldTitle + " to " + room.title, "MANAGE", 1);
-        socket.to(room.room_number).emit("event", {
+        socket.to(room.room_number).emit("room_update", {
             status: 200,
             type: "rename",
-            message: title
+            room
         });
     }
 };
