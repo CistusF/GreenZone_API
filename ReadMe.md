@@ -12,6 +12,7 @@ And using typescript and zod for typings.
 - Coords
     - update
 - Manage
+    - boundary_update
     - notice
     - kick
     - rename
