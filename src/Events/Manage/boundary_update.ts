@@ -42,7 +42,7 @@ const boundary_update: manageEventObject = {
             message: "boundary infomation has been updated",
             room
         });
-        logger(room.room_number + " Room's boundary has been updated", "MANAGE", 1);
+        logger([room.room_number + " Room's boundary has been updated", JSON.stringify(boundaryData)], "MANAGE", 1);
     }
 };
 
