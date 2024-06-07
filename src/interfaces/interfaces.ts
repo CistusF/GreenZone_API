@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket, Server } from "socket.io";
 import z from "zod";
 
 export enum logType {
@@ -36,6 +36,7 @@ export type socketMemberType = z.infer<typeof socketMember>;
 export type EventObject<T> = {
     eventName: string;
     run: (utils: {
+        io: Server
         socket: Socket,
         members: socketMemberType[],
         rooms: roomsInterface[]

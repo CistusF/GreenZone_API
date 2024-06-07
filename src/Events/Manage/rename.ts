@@ -3,7 +3,7 @@ import { logger } from "../../utils/etc";
 
 const rename: manageEventObject = {
     eventName: "rename",
-    run: ({ socket, rooms }, title) => {
+    run: ({ io, socket, rooms }, title) => {
         if (typeof title !== "string") return;
         const room = rooms.find(i => i.ownerId === socket.id);
 
@@ -17,7 +17,7 @@ const rename: manageEventObject = {
         room.title = title;
 
         logger("Room renamed / " + oldTitle + " to " + room.title, "MANAGE", 1);
-        socket.to(room.room_number).emit("room_update", {
+        io.to(room.room_number).emit("room_update", {
             status: 200,
             type: "rename",
             room
