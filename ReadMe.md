@@ -12,7 +12,7 @@ And using typescript and zod for typings.
 - Coords
     - update
 - Manage
-    - announce
+    - notice
     - kick
     - rename
 - Room
