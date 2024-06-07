@@ -42,6 +42,7 @@ const boundary_update: manageEventObject = {
             message: "boundary infomation has been updated",
             boundaryData
         });
+        logger("Room's boundary has been updated", "MANAGE", 1);
     }
 };
 
