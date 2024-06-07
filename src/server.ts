@@ -5,8 +5,6 @@ import { logger } from './utils/etc';
 import { readdirSync } from 'fs';
 import { roomEventObject } from './interfaces/roomEvent.interface';
 import { coordEventObject } from './interfaces/coordEvent.interface';
-// import { createRoom, findRoom, joinRoom, roomInfo } from './utils/rooms';
-// import { coordUpdate } from './utils/coords';
 
 const rooms: roomsInterface[] = [];
 var members: socketMemberType[] = [];
@@ -54,22 +52,6 @@ export class SocketServer {
             };
             this.loadEvents(utils);
 
-            // socket.on("room_info", (room_number: string) => {
-            //     roomInfo(socket, members, room_number);
-            // });
-
-            // socket.on('room_create', (room_info: roomInfoTypes) => {
-            //     createRoom(socket, members, room_info, room_numbers);
-            // });
-
-            // socket.on('room_find', (room_number: string) => {
-            //     findRoom(socket, members, room_number);
-            // });
-
-            // socket.on('room_join', (join_user_info: joinUserInfoTypes) => {
-            //     joinRoom(socket, members, join_user_info)
-            // });  
-
             socket.on("disconnect", (reason) => {
                 this.onDisconnect(socket, reason);
             });
@@ -82,10 +64,9 @@ export class SocketServer {
         logger(member.room_number + " is destroyed", "ROOM DISTROY");
         const roomNumber = member?.room_number;
         if (roomNumber) {
-            // socket.to(roomNumber)..clear();
             const index = rooms.findIndex(i => i.room_number === roomNumber);
             rooms.splice(index, 1);
         }
-        logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT");
+        logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT", -1);
     }
 }
