@@ -3,16 +3,15 @@ import { logger } from "../../utils/etc";
 
 const rename: manageEventObject = {
     eventName: "rename",
-    run: ({socket, rooms, members}, title) => {
-        const member = members.find(i => i.id === socket.id);
+    run: ({ socket, rooms }, title) => {
+        const room = rooms.find(i => i.ownerId === socket.id);
 
-        if (!member?.owner) return socket.emit("event", {
+        if (!room) return socket.emit("event", {
             status: 500,
             type: "rename",
             message: "You are not allowed to rename this room."
         });
 
-        const room = rooms.find(i => i.room_number === member.room_number)!;
         const oldTitle = room.title;
         room.title = title;
 

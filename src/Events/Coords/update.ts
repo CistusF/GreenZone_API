@@ -21,18 +21,19 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 
 const coordsUpdate: EventObject<coordsType> = {
     eventName: "update",
-    run: ({ socket, members }, coords) => {
-        const memberData = members.find(i => i.id == socket.id);
+    run: ({ socket, rooms, members }, coords) => {
+        const memberData = members.find(i => i.id === socket.id);
+        const room = rooms.find(i => i.room_number === memberData?.room_number);
         const roomMembers = members.filter(i => i.room_number == memberData?.room_number);
-        const ownerMember = roomMembers?.find(i => i.owner == true)!;
+        const ownerMember = roomMembers?.find(i => i.id == room?.ownerId)!;
 
         if (!memberData) return socket.emit("error", "Couldn't find member with id " + socket.id);
         memberData.x = coords.x;
         memberData.y = coords.y;
         logger(`member: ${memberData.user_name} | ${memberData.user_number} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
 
-        if (memberData?.owner) {
-            const roomMembersData = roomMembers.filter(i => !i.owner).map(({ user_name, user_number, x, y }) => {
+        if (memberData?.id === ownerMember.id) {
+            const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_number, x, y }) => {
                 return {
                     user_name,
                     user_number,

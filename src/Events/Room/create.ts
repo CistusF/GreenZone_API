@@ -16,10 +16,20 @@ function isRoomInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj is 
 // Create Room
 const createRoom: roomEventObject = {
     eventName: "create",
-    run: ({socket, rooms, members}, room_info) => {
+    run: ({ socket, rooms, members }, room_info) => {
         if (!isRoomInfoTypes(room_info)) return logger("Cannot found room information", "ROOM CREATOR", -1);
         const roomId = createRoomNumber(socket, rooms);
-        rooms.push({room_number: roomId, title: room_info.title });
+        rooms.push({
+            room_number: roomId,
+            title: room_info.title,
+            ownerId: socket.id,
+            boundary: {
+                x: null,
+                y: null,
+                safety: 50,
+                limit: 100
+            }
+        });
         socket.rooms.add(roomId);
         socket.join(roomId);
 
@@ -29,8 +39,7 @@ const createRoom: roomEventObject = {
             id: socket.id,
             user_name: "방장",
             user_number: room_info.tel,
-            room_number: roomId,
-            owner: true
+            room_number: roomId
         });
 
         socket.emit("room_create_response", {

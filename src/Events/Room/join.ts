@@ -28,8 +28,7 @@ const roomJoin: roomEventObject = {
             room_number: join_user_info.room_number,
             user_name: join_user_info.user_name,
             user_number: join_user_info.user_tel,
-            owner: false
-        })
+        });
         socket.join(join_user_info.room_number);
 
         socket.emit("room_join_response", {

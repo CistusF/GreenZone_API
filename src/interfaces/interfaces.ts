@@ -8,8 +8,15 @@ export enum logType {
 };
 
 export interface roomsInterface {
+    ownerId: string,
     room_number: string;
     title: string;
+    boundary: {
+        x: number | null;
+        y: number | null;
+        safety: number;
+        limit: number;
+    };
 };
 
 // Park Seonu<harusame3144@users.noreply.github.com> help class to zod
@@ -19,8 +26,7 @@ export const socketMember = z.object({
     user_number: z.string(),
     x: z.number().optional(),
     y: z.number().optional(),
-    room_number: z.string(),
-    owner: z.boolean(),
+    room_number: z.string()
 });
 export type socketMemberType = z.infer<typeof socketMember>;
 

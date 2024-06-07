@@ -3,7 +3,9 @@ import { EventObject } from "./interfaces";
 
 export const RoomInfo = z.object({
     title: z.string(),
-    tel: z.string()
+    tel: z.string(),
+    x: z.number().optional(),
+    y: z.number().optional()
 });
 export type roomInfoType = z.infer<typeof RoomInfo>;
 

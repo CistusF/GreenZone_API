@@ -11,7 +11,7 @@ const roomInfo: roomEventObject = {
             status: 200,
             roomMembers: members.filter(i => i.room_number == room_number),
             title: room?.title,
-            owner_tel: members.find(i => i.room_number == room_number && i.owner == true)?.user_number
+            owner_tel: members.find(i => room?.ownerId == i.id)?.user_number
         });
     }
 };
