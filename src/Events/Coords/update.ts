@@ -28,25 +28,44 @@ const coordsUpdate: EventObject<coordsType> = {
         const ownerMember = roomMembers?.find(i => i.id == room?.ownerId)!;
 
         if (!memberData) return socket.emit("error", "Couldn't find member with id " + socket.id);
+        if (!room) return socket.emit("error", "Couldn't find room for member : " + socket.id);
         memberData.x = coords.x;
         memberData.y = coords.y;
         logger(`member: ${memberData.user_name} | ${memberData.user_number} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
 
         if (memberData?.id === ownerMember.id) {
+            const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!);
             const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_number, x, y }) => {
                 return {
                     user_name,
                     user_number,
                     x,
                     y,
-                    distance: haversineDistance(x!, y!, ownerMember.x!, ownerMember.y!)
+                    distance: distance
                 };
             });
             socket.emit("coords_update_response", {
                 status: 200,
                 data: roomMembersData
             });
+
+            var distance_status = 0
+            if (distance > (room?.boundary.limit! / 2)) {
+                distance_status = 2;
+            } else if (distance > (room?.boundary.safety! / 2)) {
+                distance_status = 1;
+            };
+
+            if (distance_status !== 0) {
+                socket.emit("event", {
+                    status: 200,
+                    type: "warning",
+                    distance_status
+                });
+                logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
+            };
         } else {
+            const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!);
             socket.emit("coords_update_response", {
                 status: 200,
                 data: [{
@@ -54,7 +73,7 @@ const coordsUpdate: EventObject<coordsType> = {
                     user_number: memberData.user_number,
                     x: memberData.x,
                     y: memberData.y,
-                    distance: haversineDistance(memberData.x!, memberData.y!, ownerMember.x!, ownerMember.y!)
+                    distance: distance
                 }]
             });
         };
