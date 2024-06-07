@@ -1,4 +1,4 @@
-import { Socket, Server as ScoketServ } from 'socket.io';
+import { Socket, Server as SocketServ } from 'socket.io';
 import { Server } from 'http';
 import { roomsInterface, socketMemberType } from './interfaces/interfaces';
 import { logger } from './utils/etc';
@@ -10,10 +10,10 @@ const rooms: roomsInterface[] = [];
 var members: socketMemberType[] = [];
 
 export class SocketServer {
-    private io: ScoketServ;
+    private io: SocketServ;
 
     public constructor(server: Server) {
-        this.io = new ScoketServ(server, {
+        this.io = new SocketServ(server, {
             pingInterval: 5000,
             pingTimeout: 120000
         });
@@ -22,6 +22,7 @@ export class SocketServer {
     }
 
     private async loadEvents(utils: {
+        io: SocketServ,
         socket: Socket,
         members: socketMemberType[],
         rooms: roomsInterface[]
@@ -46,6 +47,7 @@ export class SocketServer {
         this.io.on('connection', (socket: Socket) => {
             logger("New connection / " + socket.id);
             const utils = {
+                io: this.io,
                 socket,
                 members,
                 rooms
