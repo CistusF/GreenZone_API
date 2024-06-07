@@ -4,6 +4,7 @@ import { logger } from "../../utils/etc";
 const rename: manageEventObject = {
     eventName: "rename",
     run: ({ socket, rooms }, title) => {
+        if (typeof title !== "string") return;
         const room = rooms.find(i => i.ownerId === socket.id);
 
         if (!room) return socket.emit("event", {
