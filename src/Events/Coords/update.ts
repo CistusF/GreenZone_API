@@ -69,7 +69,7 @@ const coordsUpdate: coordEventObject = {
                 status: 200,
                 data: [{
                     user_name: memberData.user_name,
-                    user_number: memberData.user_tel,
+                    user_tel: memberData.user_tel,
                     x: memberData.x,
                     y: memberData.y,
                     distance: distance
