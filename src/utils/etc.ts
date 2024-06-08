@@ -13,13 +13,13 @@ export const logger = (log: string | string[], title?: string, typeCode?: logTyp
         var time = moment().tz("Asia/Seoul").format("HH:mm:ss");
 
         switch (typeCode) {
-            case -1: // error
+            case logType.error:
                 logColor = "red";
                 break;
-            case 0: // warning
+            case logType.warn:
                 logColor = "yellow";
                 break;
-            case 1: // success
+            case logType.success:
                 logColor = "green";
                 break;
         };
