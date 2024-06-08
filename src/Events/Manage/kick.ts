@@ -33,7 +33,7 @@ const kick: manageEventObject = {
         });
 
         socket.emit("event", {
-            status: 200,
+            status: 201,
             type: "kick",
             message: "Member " + target.user_name + " has been kicked."
         });
