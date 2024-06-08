@@ -18,9 +18,11 @@ And using typescript and zod for typings.
     - rename
 - Room
     - create
+    - destroy
     - find
     - info
     - join
+    - leave
 
 ## TODO?
 - [x] Add set title feature

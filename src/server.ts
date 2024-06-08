@@ -63,8 +63,11 @@ export class SocketServer {
     private onDisconnect(socket: Socket, reason: string) {
         const member = members.find(i => i.id === socket.id);
         const room = rooms.find(i => i.room_number === member?.room_number);
-        if (!member || room?.ownerId !== member.id) return logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT", -1);
-
+        if (!member || room?.ownerId !== member.id) {
+            logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT", -1);
+            members.splice(members.findIndex(i => i.id === socket.id), 1);
+            return; 
+        };
         this.io.to(room.room_number).emit("room_destroyed", {
             status: 200,
             message: "Room is now destroyed"
