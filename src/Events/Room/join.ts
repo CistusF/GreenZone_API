@@ -18,16 +18,24 @@ const roomJoin: roomEventObject = {
         const room = rooms.find(i => i.room_number === join_user_info.room_number);
         if (!room) {
             logger(socket.id + " / " + join_user_info.user_name + " Cannot join room " + join_user_info.room_number, "ROOM JOINER", -1);
-            return socket.emit("error", {
+            return socket.emit("room_join_response", {
+                status: 500,
+                message: "Failed to join room " + join_user_info.room_number
+            });
+        };
+
+        const roomMembers = members.filter(i => i.room_number === room.room_number);
+        if (roomMembers.findIndex(i => i.user_tel === join_user_info.user_tel)) {
+            return socket.emit("room_join_response", {
                 status: 501,
-                content: "Failed to join room " + join_user_info.room_number
+                content: "user_tel " + join_user_info.user_tel + " is already existed."
             });
         }
         members.push({
             id: socket.id,
             room_number: join_user_info.room_number,
             user_name: join_user_info.user_name,
-            user_number: join_user_info.user_tel,
+            user_tel: join_user_info.user_tel,
         });
         socket.join(join_user_info.room_number);
 
