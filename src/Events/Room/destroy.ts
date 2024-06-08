@@ -9,7 +9,7 @@ const destroyRoom: roomEventObject = {
         if (!room) {
             socket.emit("error", {
                 status: errorCode.room_destroy_not_connected,
-                content: "You must be owner of specified room"
+                message: "You must be owner of specified room"
             });
             return;
         };

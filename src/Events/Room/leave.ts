@@ -9,7 +9,7 @@ const leaveRoom: roomEventObject = {
         if (!room || !memberData) {
             socket.emit("error", {
                 status: errorCode.room_leave_not_connected,
-                content: "You must be owner of specified room"
+                message: "You must be joined of specified room"
             });
             return;
         };
