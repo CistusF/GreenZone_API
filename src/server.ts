@@ -38,7 +38,7 @@ export class SocketServer {
                 });
                 // logger(eventName + " is Loaded", "Event Loaded");
             });
-            logger("Events loaded successfully", "Events Loaded", 0);
+            logger(e.name + "'s Events loaded successfully", "Events Loaded", 0);
         });
     }
 
