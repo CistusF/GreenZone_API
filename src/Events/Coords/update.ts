@@ -45,7 +45,7 @@ const coordsUpdate: coordEventObject = {
             });
             socket.emit("coords_update_response", {
                 status: 200,
-                data: roomMembersData
+                data: roomMembersData.filter(i => i.x && i.y)
             });
 
             var distance_status = 0
