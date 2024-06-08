@@ -12,28 +12,28 @@ export enum errorCode {
     // destroy 
     room_destroy_not_connected = 500,
     //find
-    room_find_room_not_found,
+    room_find_room_not_found = 510,
     // join
-    room_join_failed_to_join,
+    room_join_failed_to_join = 520,
     room_join_tel_number_existed,
     // leave
-    room_leave_not_connected,
+    room_leave_not_connected = 530,
 
     /* Manage */
     // boundary_update
-    manage_boundary_update_worng_data,
+    manage_boundary_update_worng_data = 540,
     manage_boundary_update_permission_missing,
 
     // kick
-    manage_kick_permission_missing,
+    manage_kick_permission_missing = 550,
     manage_kick_member_not_found,
 
     // rename
-    manage_rename_permission_missing,
+    manage_rename_permission_missing = 560,
 
     /* Common */
     // chat
-    common_chat_permission_missing,
+    common_chat_permission_missing = 570,
     common_chat_member_not_found,
 };
 
