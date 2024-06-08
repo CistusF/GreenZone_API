@@ -1,5 +1,4 @@
-import { coordsType } from "../../interfaces/coordEvent.interface";
-import { EventObject } from "../../interfaces/interfaces";
+import { coordEventObject } from "../../interfaces/coordEvent.interface";
 import { logger } from "../../utils/etc";
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -19,7 +18,7 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
     return Number((distance * 1000).toFixed(2));
 };
 
-const coordsUpdate: EventObject<coordsType> = {
+const coordsUpdate: coordEventObject = {
     eventName: "update",
     run: ({ socket, rooms, members }, coords) => {
         const memberData = members.find(i => i.id === socket.id);
