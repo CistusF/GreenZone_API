@@ -16,6 +16,7 @@ const leaveRoom: roomEventObject = {
 
         const memberIndex = members.findIndex(i => i.id === memberData.id);
         members.splice(memberIndex, 1);
+        socket.leave(memberData.room_number);
 
         logger(memberData.id + " leave Room " + room.room_number, "ROOM LEAVE", -1);
     }
