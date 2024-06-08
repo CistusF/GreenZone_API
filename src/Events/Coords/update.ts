@@ -32,7 +32,7 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
         });
         logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
     };
-    return distance;
+    return Number((distance * 1000).toFixed(2));
 };
 
 const coordsUpdate: coordEventObject = {
