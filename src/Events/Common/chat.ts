@@ -18,7 +18,12 @@ const notice: commonEventObject = {
 
         const memberData = members.find(i => i.id === socket.id)!;
         const room = rooms.find(i => i.room_number === memberData.room_number);
-        if (!chat.to) {
+
+        const { to, from } = {
+            to: chat.to,
+            from: memberData.user_tel
+        };
+        if (!to) {
             if (rooms.findIndex(i => i.ownerId === socket.id) === -1) {
                 socket.emit("common_chat_response", {
                     status: errorCode.common_chat_permission_missing,
@@ -48,10 +53,6 @@ const notice: commonEventObject = {
                 });
                 return;
             };
-            const { to, from } = {
-                to: chat.to,
-                from: memberData.user_tel
-            }
             socket.to(targetMemberData.id).emit("chat_event", {
                 status: 200,
                 message: chat.message,
