@@ -54,10 +54,15 @@ const notice: commonEventObject = {
                 return;
             };
             socket.to(targetMemberData.id).emit("chat_event", {
-                status: 200,
+                status: 201,
                 message: chat.message,
                 to,
                 from
+            });
+
+            socket.emit("common_chat_response", {
+                status: 201,
+                message: "successfully sent"
             });
 
             room?.logs.push({
