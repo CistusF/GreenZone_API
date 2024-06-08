@@ -59,7 +59,7 @@ export interface roomsInterface {
         type: number;
         from: string;
         to: string;
-        message: string;
+        message: string | number;
         created_at: Date;
     }[]
 };

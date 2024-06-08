@@ -1,9 +1,16 @@
 import { Socket } from "socket.io";
 import { coordEventObject } from "../../interfaces/coordEvent.interface";
-import { boundaryType, errorCode } from "../../interfaces/interfaces";
+import { boundaryType, errorCode, roomsInterface, socketMemberType } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
+import { logType } from "../../interfaces/common.interface";
 
-function haversineDistance(boundary: boundaryType, socket: Socket, lat2: number, lon2: number) {
+function haversineDistance({boundary, socket, room, member, owner}: {
+    boundary: boundaryType,
+    socket: Socket,
+    room: roomsInterface,
+    member: socketMemberType,
+    owner: socketMemberType
+}, lat2: number, lon2: number) {
     // This feature was helped by GPT 3.5
     if (!boundary.x || !boundary.y) return -1;
     const toRadians = (degree: number) => degree * (Math.PI / 180);
@@ -30,6 +37,13 @@ function haversineDistance(boundary: boundaryType, socket: Socket, lat2: number,
             status: 200,
             type: "warning",
             distance_status
+        });
+        room.logs.push({
+            type: logType.warning,
+            from: member.user_tel,
+            to: owner.user_name,
+            message: distance_status,
+            created_at: new Date()
         });
         logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
     };
@@ -59,7 +73,14 @@ const coordsUpdate: coordEventObject = {
         logger(`member: ${memberData.user_name} | ${memberData.user_tel} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
 
         if (memberData?.id === ownerMember.id) {
-            const distance = haversineDistance(room.boundary, socket, ownerMember.x!, ownerMember.y!);
+            const distance = haversineDistance({
+                boundary: room.boundary,
+                socket,
+                room,
+                member: memberData,
+                owner: ownerMember
+            }, 
+            ownerMember.x!, ownerMember.y!);
             const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_tel, x, y }) => {
                 return {
                     user_name,
@@ -74,7 +95,13 @@ const coordsUpdate: coordEventObject = {
                 data: roomMembersData.filter(i => i.x && i.y)
             });
         } else {
-            const distance = haversineDistance(room?.boundary, socket, ownerMember.x!, ownerMember.y!);
+            const distance = haversineDistance({
+                boundary: room.boundary,
+                socket,
+                room,
+                member: memberData,
+                owner: ownerMember
+            }, ownerMember.x!, ownerMember.y!);
             socket.emit("coords_update_response", {
                 status: 200,
                 data: [{
