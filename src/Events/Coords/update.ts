@@ -68,10 +68,10 @@ const coordsUpdate: coordEventObject = {
             socket.emit("coords_update_response", {
                 status: 200,
                 data: [{
-                    user_name: memberData.user_name,
-                    user_tel: memberData.user_tel,
-                    x: memberData.x,
-                    y: memberData.y,
+                    user_name: ownerMember.user_name,
+                    user_tel: ownerMember.user_tel,
+                    x: ownerMember.x,
+                    y: ownerMember.y,
                     distance: distance
                 }]
             });
