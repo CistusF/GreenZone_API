@@ -1,4 +1,4 @@
-import { boundaryInfo, boundaryType } from "../../interfaces/interfaces";
+import { boundaryInfo, boundaryType, errorCode } from "../../interfaces/interfaces";
 import { manageEventObject } from "../../interfaces/manageEvent.interface";
 import { logger } from "../../utils/etc";
 
@@ -17,7 +17,7 @@ const boundary_update: manageEventObject = {
         if (boundaryData || !isBoundaryType(boundaryData)) {
             logger(["Wrong boundary data received", JSON.stringify(boundaryData)], "MANAGE", -1);
             socket.emit("event", {
-                status: 500,
+                status: errorCode.manage_boundary_update_worng_data,
                 type: "boundary",
                 message: "Wrong boundary data received"
             });
@@ -28,7 +28,7 @@ const boundary_update: manageEventObject = {
         if (!room) {
             logger("You have not permission to settings the room boundary", "MANAGE", -1);
             socket.emit("event", {
-                status: 500,
+                status: errorCode.manage_boundary_update_permission_missing,
                 type: "boundary",
                 message: "You have not permission to settings the room boundary"
             });

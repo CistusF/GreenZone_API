@@ -7,6 +7,36 @@ export enum logType {
     success,
 };
 
+export enum errorCode {
+    /* Room */
+    // destroy 
+    room_destroy_not_connected = 500,
+    //find
+    room_find_room_not_found,
+    // join
+    room_join_failed_to_join,
+    room_join_tel_number_existed,
+    // leave
+    room_leave_not_connected,
+
+    /* Manage */
+    // boundary_update
+    manage_boundary_update_worng_data,
+    manage_boundary_update_permission_missing,
+
+    // kick
+    manage_kick_permission_missing,
+    manage_kick_member_not_found,
+
+    // rename
+    manage_rename_permission_missing,
+
+    /* Common */
+    // chat
+    common_chat_permission_missing,
+    common_chat_member_not_found,
+};
+
 export const boundaryInfo = z.object({
     x: z.number().nullable(),
     y: z.number().nullable(),

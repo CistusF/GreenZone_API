@@ -1,3 +1,4 @@
+import { errorCode } from "../../interfaces/interfaces";
 import { manageEventObject } from "../../interfaces/manageEvent.interface";
 import { logger } from "../../utils/etc";
 
@@ -7,7 +8,7 @@ const kick: manageEventObject = {
 
         if (rooms.findIndex(i => i.ownerId === socket.id) === -1) {
             socket.emit("manage_kick_response", {
-                status: 500,
+                status: errorCode.manage_kick_permission_missing,
                 message: "You are not allowed to kick member in this room."
             });
             logger(socket.id + " try to kick member", "MANAGE", 0);
@@ -16,7 +17,7 @@ const kick: manageEventObject = {
 
         if (!target) {
             socket.to(socket.id).emit("event", {
-                status: 404,
+                status: errorCode.manage_kick_member_not_found,
                 type: "kick",
                 message: "Can't find member in this room."
             });

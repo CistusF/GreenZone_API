@@ -1,3 +1,4 @@
+import { errorCode } from "../../interfaces/interfaces";
 import { roomEventObject } from "../../interfaces/roomEvent.interface";
 import { logger } from "../../utils/etc";
 
@@ -7,7 +8,7 @@ const findRoom: roomEventObject = {
         if (rooms.findIndex(i => i.room_number == room_number) === -1) {
             logger(socket.id + " Cannot find room " + room_number, "ROOM FINDER", -1);
             return socket.emit("error", {
-                status: 501,
+                status: errorCode.room_find_room_not_found,
                 content: "Can't find room " + room_number,
                 room_number: room_number
             });

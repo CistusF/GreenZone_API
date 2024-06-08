@@ -1,5 +1,6 @@
 import { logger } from "../../utils/etc";
 import { roomEventObject } from "../../interfaces/roomEvent.interface";
+import { errorCode } from "../../interfaces/interfaces";
 
 const destroyRoom: roomEventObject = {
     run: ({ io, socket, rooms, members }) => {
@@ -7,7 +8,7 @@ const destroyRoom: roomEventObject = {
 
         if (!room) {
             socket.emit("error", {
-                status: 501,
+                status: errorCode.room_destroy_not_connected,
                 content: "You must be owner of specified room"
             });
             return;

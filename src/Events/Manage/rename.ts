@@ -1,3 +1,4 @@
+import { errorCode } from "../../interfaces/interfaces";
 import { manageEventObject } from "../../interfaces/manageEvent.interface";
 import { logger } from "../../utils/etc";
 
@@ -7,7 +8,7 @@ const rename: manageEventObject = {
         const room = rooms.find(i => i.ownerId === socket.id);
 
         if (!room) return socket.emit("event", {
-            status: 500,
+            status: errorCode.manage_rename_permission_missing,
             type: "rename",
             message: "You are not allowed to rename this room."
         });

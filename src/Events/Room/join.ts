@@ -1,3 +1,4 @@
+import { errorCode } from "../../interfaces/interfaces";
 import { joinUserInfo, joinUserInfoType, roomEventObject, roomInfoType } from "../../interfaces/roomEvent.interface";
 import { logger } from "../../utils/etc";
 
@@ -18,7 +19,7 @@ const roomJoin: roomEventObject = {
         if (!room) {
             logger(socket.id + " / " + join_user_info.user_name + " Cannot join room " + join_user_info.room_number, "ROOM JOINER", -1);
             return socket.emit("room_join_response", {
-                status: 500,
+                status: errorCode.room_join_failed_to_join,
                 message: "Failed to join room " + join_user_info.room_number
             });
         };
@@ -26,7 +27,7 @@ const roomJoin: roomEventObject = {
         const roomMembers = members.filter(i => i.room_number === room.room_number);
         if (roomMembers.findIndex(i => i.user_tel === join_user_info.user_tel) !== -1) {
             socket.emit("room_join_response", {
-                status: 501,
+                status: errorCode.room_join_tel_number_existed,
                 message: "user_tel " + join_user_info.user_tel + " is already existed."
             });
             return;
