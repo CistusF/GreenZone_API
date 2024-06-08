@@ -16,7 +16,7 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = R * c; // 킬로미터 단위의 거리
+    const distance = Number((R * c * 1000).toFixed(2)); // 킬로미터 단위의 거리
 
     var distance_status = 0
     if (distance > (boundary.limit! / 2)) {
@@ -32,7 +32,7 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
         });
         logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
     };
-    return Number((distance * 1000).toFixed(2));
+    return distance;
 };
 
 const coordsUpdate: coordEventObject = {
