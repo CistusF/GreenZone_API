@@ -1,4 +1,5 @@
 import { commonEventObject } from "../../interfaces/common.interface";
+import { logger } from "../../utils/etc";
 
 const notice: commonEventObject = {
     run: ({ socket, members, rooms }) => {
@@ -13,6 +14,7 @@ const notice: commonEventObject = {
             return;
         };
 
+        logger(socket.id + " requested logs");
         socket.emit("common_log_response", {
             status: 200,
             logs: room.logs
