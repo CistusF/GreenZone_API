@@ -9,6 +9,9 @@ We using `Socket.IO` and `Express`, `http` for socket server,
 And using typescript and zod for typings.
 
 ## API Features
+- Common
+    - chat
+    - log
 - Coords
     - update
 - Manage
@@ -30,7 +33,8 @@ And using typescript and zod for typings.
 - [x] Add send Anouncement feature
 - [x] Add send warning feature
 - [x] Add kick member feature
-- [ ] Add destroy room feature
+- [x] Add destroy room feature
 - [ ] Add Event Message feature
-- [ ] Add Chat feature
+- [x] Add Chat feature
+- [x] Add Logs sender feature
 - [ ] ~~Add get special member infomation feature~~
