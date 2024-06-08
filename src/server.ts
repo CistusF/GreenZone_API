@@ -36,7 +36,6 @@ export class SocketServer {
                 utils.socket.on(eventName, (data) => {
                     event.default.run(utils, data);
                 });
-                // logger(eventName + " is Loaded", "Event Loaded");
             });
             logger(e.name + "'s Events loaded successfully", "Events Loaded", 0);
         });
