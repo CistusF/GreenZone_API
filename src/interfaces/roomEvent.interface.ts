@@ -15,4 +15,4 @@ export const joinUserInfo = z.object({
     user_tel: z.string()
 });
 export type joinUserInfoType = z.infer<typeof joinUserInfo>;
-export type roomEventObject = EventObject<string | roomInfoType | joinUserInfoType>;
+export type roomEventObject = EventObject<string | roomInfoType | joinUserInfoType | null>;
