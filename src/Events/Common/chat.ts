@@ -44,7 +44,7 @@ const notice: commonEventObject = {
                     type: logType.notice,
                     created_at
                 });
-                logger(["notice is sended", "message : " + chat.message], "CHAT", 1);
+                logger(["Notification has been sent", "message : " + chat.message], "CHAT", 1);
             };
         } else {
             const targetMemberData = members.find(i => i.user_tel === chat.to);
@@ -75,7 +75,7 @@ const notice: commonEventObject = {
                 created_at
             });
 
-            logger([from + " sended " + chat.message + " to " + to], "CHAT", 1);
+            logger([from + " sent " + chat.message + " to " + to], "CHAT", 1);
         };
     }
 };
