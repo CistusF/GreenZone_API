@@ -28,7 +28,7 @@ const roomJoin: roomEventObject = {
         if (roomMembers.findIndex(i => i.user_tel === join_user_info.user_tel)) {
             return socket.emit("room_join_response", {
                 status: 501,
-                content: "user_tel " + join_user_info.user_tel + " is already existed."
+                message: "user_tel " + join_user_info.user_tel + " is already existed."
             });
         }
         members.push({
