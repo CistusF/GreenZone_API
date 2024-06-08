@@ -14,7 +14,7 @@ function isChatType(obj: chatType): obj is chatType {
 
 const notice: commonEventObject = {
     run: ({ io, socket, members, rooms }, chat) => {
-        if (!isChatType(chat)) return;
+        if (!chat || !isChatType(chat)) return;
 
         const memberData = members.find(i => i.id === socket.id)!;
         const room = rooms.find(i => i.room_number === memberData.room_number);

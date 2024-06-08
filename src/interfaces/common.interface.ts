@@ -7,9 +7,9 @@ export enum logType {
 };
 
 export const chatInfo = z.object({
-    to: z.string().nullable(),
+    to: z.string().optional(),
     message: z.string()
 });
 export type chatType = z.infer<typeof chatInfo>;
 
-export type commonEventObject = EventObject<chatType>;
+export type commonEventObject = EventObject<chatType | null>;
