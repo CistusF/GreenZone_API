@@ -1,7 +1,9 @@
+import { Socket } from "socket.io";
 import { coordEventObject } from "../../interfaces/coordEvent.interface";
+import { boundaryType } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
 
-function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number, boundary: boundaryType, socket: Socket) {
     // This feature created by GPT 3.5
     const toRadians = (degree: number) => degree * (Math.PI / 180);
 
@@ -15,7 +17,22 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     const distance = R * c; // 킬로미터 단위의 거리
-    return Number((distance * 1000).toFixed(2));
+
+    var distance_status = 0
+    if (distance > (boundary.limit! / 2)) {
+        distance_status = 2;
+    } else if (distance > (boundary.safety! / 2)) {
+        distance_status = 1;
+    };
+    if (distance_status !== 0) {
+        socket.emit("event", {
+            status: 200,
+            type: "warning",
+            distance_status
+        });
+        logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
+    };
+    return distance;
 };
 
 const coordsUpdate: coordEventObject = {
@@ -32,7 +49,7 @@ const coordsUpdate: coordEventObject = {
         logger(`member: ${memberData.user_name} | ${memberData.user_tel} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
 
         if (memberData?.id === ownerMember.id) {
-            const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!);
+            const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!, room.boundary, socket);
             const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_tel, x, y }) => {
                 return {
                     user_name,
@@ -46,24 +63,8 @@ const coordsUpdate: coordEventObject = {
                 status: 200,
                 data: roomMembersData.filter(i => i.x && i.y)
             });
-
-            var distance_status = 0
-            if (distance > (room?.boundary.limit! / 2)) {
-                distance_status = 2;
-            } else if (distance > (room?.boundary.safety! / 2)) {
-                distance_status = 1;
-            };
-
-            if (distance_status !== 0) {
-                socket.emit("event", {
-                    status: 200,
-                    type: "warning",
-                    distance_status
-                });
-                logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
-            };
         } else {
-            const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!);
+            const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!, room.boundary, socket);
             socket.emit("coords_update_response", {
                 status: 200,
                 data: [{
@@ -71,7 +72,7 @@ const coordsUpdate: coordEventObject = {
                     user_tel: ownerMember.user_tel,
                     x: ownerMember.x,
                     y: ownerMember.y,
-                    distance: distance
+                    distance
                 }]
             });
         };
