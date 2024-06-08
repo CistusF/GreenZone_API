@@ -1,4 +1,4 @@
-import { chatInfo, chatType, commonEventObject } from "../../interfaces/common.interface";
+import { chatInfo, chatType, commonEventObject, logType } from "../../interfaces/common.interface";
 import { errorCode } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
 
@@ -17,7 +17,7 @@ const notice: commonEventObject = {
         if (!isChatType(chat)) return;
 
         const memberData = members.find(i => i.id === socket.id)!;
-
+        const room = rooms.find(i => i.room_number === memberData.room_number);
         if (!chat.to) {
             if (rooms.findIndex(i => i.ownerId === socket.id) === -1) {
                 socket.emit("common_chat_response", {
@@ -30,6 +30,12 @@ const notice: commonEventObject = {
                     from: memberData.user_tel,
                     to: "all",
                     message: chat.message
+                });
+                room?.logs.push({
+                    from: memberData.user_tel,
+                    to: 'all',
+                    message: chat.message,
+                    type: logType.notice
                 });
                 logger(["notice is sended", "message : " + chat.message], "CHAT", 1);
             };
@@ -51,6 +57,13 @@ const notice: commonEventObject = {
                 message: chat.message,
                 to,
                 from
+            });
+
+            room?.logs.push({
+                from,
+                to,
+                message: chat.message,
+                type: logType.chat
             });
 
             logger([from + " sended " + chat.message + " to " + to], "CHAT", 1);

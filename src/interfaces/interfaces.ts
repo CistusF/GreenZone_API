@@ -55,6 +55,12 @@ export interface roomsInterface {
     room_number: string;
     title: string;
     boundary: boundaryType;
+    logs: {
+        type: number;
+        from: string;
+        to: string;
+        message: string;
+    }[]
 };
 
 // Park Seonu<harusame3144@users.noreply.github.com> help class to zod

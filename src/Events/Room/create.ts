@@ -27,7 +27,8 @@ const createRoom: roomEventObject = {
                 y: null,
                 safety: null,
                 limit: null
-            }
+            },
+            logs: []
         });
         socket.rooms.add(roomId);
         socket.join(roomId);
