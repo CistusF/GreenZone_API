@@ -13,7 +13,6 @@ function isBoundaryType(obj: string | boundaryType): obj is boundaryType {
 };
 
 const boundary_update: manageEventObject = {
-    eventName: "boundary_update",
     run: ({ io, socket, rooms }, boundaryData) => {
         if (!isBoundaryType(boundaryData)) {
             logger(["Wrong boundary data received", JSON.stringify(boundaryData)], "MANAGE", -1);

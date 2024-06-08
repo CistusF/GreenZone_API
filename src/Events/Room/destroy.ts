@@ -2,7 +2,6 @@ import { logger } from "../../utils/etc";
 import { roomEventObject } from "../../interfaces/roomEvent.interface";
 
 const destroyRoom: roomEventObject = {
-    eventName: "destroy",
     run: ({ io, socket, rooms, members }) => {
         const room = rooms.find(i => i.ownerId === socket.id);
 

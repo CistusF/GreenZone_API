@@ -34,7 +34,6 @@ export const socketMember = z.object({
 export type socketMemberType = z.infer<typeof socketMember>;
 
 export type EventObject<T> = {
-    eventName: string;
     run: (utils: {
         io: Server
         socket: Socket,

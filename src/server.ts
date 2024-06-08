@@ -32,7 +32,7 @@ export class SocketServer {
             const eventFile = readdirSync('./dist/Events/' + e.name, { encoding: 'utf8', withFileTypes: true }).filter(i => i.name.endsWith(".js"));
             eventFile.forEach(f => {
                 const event = require("./Events/" + e.name + "/" + f.name) as { default: roomEventObject | coordEventObject };
-                const eventName = e.name.toLowerCase() + "_" + event.default.eventName.replace('.js', '');
+                const eventName = e.name.toLowerCase() + "_" + f.name.replace('.js', '');
                 utils.socket.on(eventName, (data) => {
                     event.default.run(utils, data);
                 });

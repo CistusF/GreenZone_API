@@ -2,7 +2,6 @@ import { roomEventObject } from "../../interfaces/roomEvent.interface";
 import { logger } from "../../utils/etc";
 
 const findRoom: roomEventObject = {
-    eventName: "find",
     run: ({ socket, rooms, members }, room_number) => {
         if (typeof room_number !== "string") return;
         if (rooms.findIndex(i => i.room_number == room_number) === -1) {

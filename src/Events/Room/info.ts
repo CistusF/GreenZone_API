@@ -2,7 +2,6 @@ import { roomEventObject } from "../../interfaces/roomEvent.interface";
 import { logger } from "../../utils/etc";
 
 const roomInfo: roomEventObject = {
-    eventName: "info",
     run: ({ socket, rooms, members }, room_number) => {
         const room = rooms.find(i => i.room_number === room_number);
 

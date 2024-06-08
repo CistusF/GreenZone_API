@@ -12,7 +12,6 @@ function isJoinUserInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj
 };
 
 const roomJoin: roomEventObject = {
-    eventName: "join",
     run: ({ socket, rooms, members }, join_user_info) => {
         if (!join_user_info || !isJoinUserInfoTypes(join_user_info)) return logger("Cannot find Joiner INFO", "ROOM JOINER");
         const room = rooms.find(i => i.room_number === join_user_info.room_number);

@@ -19,7 +19,6 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 };
 
 const coordsUpdate: coordEventObject = {
-    eventName: "update",
     run: ({ socket, rooms, members }, coords) => {
         const memberData = members.find(i => i.id === socket.id);
         const room = rooms.find(i => i.room_number === memberData?.room_number);

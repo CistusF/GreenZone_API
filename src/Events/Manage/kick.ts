@@ -2,7 +2,6 @@ import { manageEventObject } from "../../interfaces/manageEvent.interface";
 import { logger } from "../../utils/etc";
 
 const kick: manageEventObject = {
-    eventName: "kick",
     run: ({ socket, rooms, members }, user_tel) => {
         const target = members.find(i => i.user_tel === user_tel);
 

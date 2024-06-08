@@ -2,7 +2,6 @@ import { manageEventObject } from "../../interfaces/manageEvent.interface";
 import { logger } from "../../utils/etc";
 
 const notice: manageEventObject = {
-    eventName: "notice",
     run: ({socket, rooms}, message) => {
         const room = rooms.find(i => i.ownerId === socket.id);
 
