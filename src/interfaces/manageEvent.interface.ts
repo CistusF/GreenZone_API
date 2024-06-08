@@ -1,5 +1,3 @@
-import { EventObject } from "./interfaces";
-import { roomInfoType } from "./roomEvent.interface";
+import { EventObject, boundaryType } from "./interfaces";
 
-
-export type manageEventObject = EventObject<string | roomInfoType>;
+export type manageEventObject = EventObject<string | boundaryType>;
