@@ -60,6 +60,7 @@ export interface roomsInterface {
         from: string;
         to: string;
         message: string;
+        created_at: Date;
     }[]
 };
 

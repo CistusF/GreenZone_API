@@ -15,6 +15,7 @@ function isChatType(obj: chatType): obj is chatType {
 const notice: commonEventObject = {
     run: ({ io, socket, members, rooms }, chat) => {
         if (!chat || !isChatType(chat)) return;
+        const created_at = new Date();
 
         const memberData = members.find(i => i.id === socket.id)!;
         const room = rooms.find(i => i.room_number === memberData.room_number);
@@ -40,7 +41,8 @@ const notice: commonEventObject = {
                     from: memberData.user_tel,
                     to: 'all',
                     message: chat.message,
-                    type: logType.notice
+                    type: logType.notice,
+                    created_at
                 });
                 logger(["notice is sended", "message : " + chat.message], "CHAT", 1);
             };
@@ -69,7 +71,8 @@ const notice: commonEventObject = {
                 from,
                 to,
                 message: chat.message,
-                type: logType.chat
+                type: logType.chat,
+                created_at
             });
 
             logger([from + " sended " + chat.message + " to " + to], "CHAT", 1);
