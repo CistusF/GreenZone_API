@@ -1,5 +1,6 @@
 import { logger } from "../../utils/etc";
 import { roomEventObject } from "../../interfaces/roomEvent.interface";
+import { errorCode } from "../../interfaces/interfaces";
 
 const leaveRoom: roomEventObject = {
     run: ({ socket, rooms, members }) => {
@@ -7,7 +8,7 @@ const leaveRoom: roomEventObject = {
         const room = rooms.find(i => i.room_number === memberData?.room_number);
         if (!room || !memberData) {
             socket.emit("error", {
-                status: 501,
+                status: errorCode.room_leave_not_connected,
                 content: "You must be owner of specified room"
             });
             return;
