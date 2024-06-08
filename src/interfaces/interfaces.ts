@@ -26,7 +26,7 @@ export interface roomsInterface {
 export const socketMember = z.object({
     id: z.string(),
     user_name: z.string(),
-    user_number: z.string(),
+    user_tel: z.string(),
     x: z.number().optional(),
     y: z.number().optional(),
     room_number: z.string()

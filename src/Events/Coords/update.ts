@@ -30,14 +30,14 @@ const coordsUpdate: coordEventObject = {
         if (!room) return socket.emit("error", "Couldn't find room for member : " + socket.id);
         memberData.x = coords.x;
         memberData.y = coords.y;
-        logger(`member: ${memberData.user_name} | ${memberData.user_number} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
+        logger(`member: ${memberData.user_name} | ${memberData.user_tel} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);
 
         if (memberData?.id === ownerMember.id) {
             const distance = haversineDistance(room?.boundary.x!, room?.boundary.y!, ownerMember.x!, ownerMember.y!);
-            const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_number, x, y }) => {
+            const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_tel, x, y }) => {
                 return {
                     user_name,
-                    user_number,
+                    user_tel,
                     x,
                     y,
                     distance: distance
@@ -69,7 +69,7 @@ const coordsUpdate: coordEventObject = {
                 status: 200,
                 data: [{
                     user_name: memberData.user_name,
-                    user_number: memberData.user_number,
+                    user_number: memberData.user_tel,
                     x: memberData.x,
                     y: memberData.y,
                     distance: distance

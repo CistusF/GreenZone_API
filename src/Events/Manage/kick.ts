@@ -3,8 +3,8 @@ import { logger } from "../../utils/etc";
 
 const kick: manageEventObject = {
     eventName: "kick",
-    run: ({ socket, rooms, members }, user_number) => {
-        const target = members.find(i => i.user_number === user_number);
+    run: ({ socket, rooms, members }, user_tel) => {
+        const target = members.find(i => i.user_tel === user_tel);
 
         if (rooms.findIndex(i => i.ownerId === socket.id) === -1) {
             socket.emit("manage_kick_response", {
@@ -21,7 +21,7 @@ const kick: manageEventObject = {
                 type: "kick",
                 message: "Can't find member in this room."
             });
-            logger("Can't find member in this room / user_number : " + user_number, "MANAGE", -1);
+            logger("Can't find member in this room / user_number : " + user_tel, "MANAGE", -1);
             return;
         };
 

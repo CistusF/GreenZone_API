@@ -38,7 +38,7 @@ const createRoom: roomEventObject = {
         members.push({
             id: socket.id,
             user_name: "방장",
-            user_number: room_info.tel,
+            user_tel: room_info.tel,
             room_number: roomId
         });
 
