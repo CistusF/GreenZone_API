@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { coordEventObject } from "../../interfaces/coordEvent.interface";
-import { boundaryType } from "../../interfaces/interfaces";
+import { boundaryType, errorCode } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number, boundary: boundaryType, socket: Socket) {
@@ -42,8 +42,14 @@ const coordsUpdate: coordEventObject = {
         const roomMembers = members.filter(i => i.room_number == memberData?.room_number);
         const ownerMember = roomMembers?.find(i => i.id == room?.ownerId)!;
 
-        if (!memberData) return socket.emit("error", "Couldn't find member with id " + socket.id);
-        if (!room) return socket.emit("error", "Couldn't find room for member : " + socket.id);
+        if (!memberData) return socket.emit("error", {
+            status: errorCode.coords_update_member_not_found,
+            message: "Couldn't find member with id " + socket.id
+        });
+        if (!room) return socket.emit("error", {
+            status: errorCode.coords_update_member_room_not_found,
+            message: "Couldn't find room for member : " + socket.id
+        });
         memberData.x = coords.x;
         memberData.y = coords.y;
         logger(`member: ${memberData.user_name} | ${memberData.user_tel} / x: ${memberData.x} / y: ${memberData.y}`, "COORDS UPDATE", 1);

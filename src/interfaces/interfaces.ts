@@ -31,9 +31,14 @@ export enum errorCode {
     // rename
     manage_rename_permission_missing = 560,
 
+    /* Coords */
+    // update
+    coords_update_member_not_found = 570,
+    coords_update_member_room_not_found,
+
     /* Common */
     // chat
-    common_chat_permission_missing = 570,
+    common_chat_permission_missing = 580,
     common_chat_member_not_found,
 };
 
