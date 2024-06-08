@@ -8,10 +8,10 @@ export enum logType {
 };
 
 export const boundaryInfo = z.object({
-    x: z.number().optional(),
-    y: z.number().optional(),
-    safety: z.number().optional(),
-    limit: z.number().optional(),
+    x: z.number().nullable(),
+    y: z.number().nullable(),
+    safety: z.number().nullable(),
+    limit: z.number().nullable(),
 });
 export type boundaryType = z.infer<typeof boundaryInfo>;
 

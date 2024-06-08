@@ -23,10 +23,10 @@ const createRoom: roomEventObject = {
             title: room_info.title,
             ownerId: socket.id,
             boundary: {
-                x: undefined,
-                y: undefined,
-                safety: undefined,
-                limit: undefined
+                x: null,
+                y: null,
+                safety: null,
+                limit: null
             }
         });
         socket.rooms.add(roomId);
