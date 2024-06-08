@@ -17,7 +17,7 @@ function isRoomInfoTypes(obj: string | joinUserInfoType | roomInfoType): obj is 
 const createRoom: roomEventObject = {
     eventName: "create",
     run: ({ socket, rooms, members }, room_info) => {
-        if (!isRoomInfoTypes(room_info)) return logger("Cannot found room information", "ROOM CREATOR", -1);
+        if (!room_info || !isRoomInfoTypes(room_info)) return logger("Cannot found room information", "ROOM CREATOR", -1);
         const roomId = createRoomNumber(socket, rooms);
         rooms.push({
             room_number: roomId,
