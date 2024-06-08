@@ -1,6 +1,4 @@
-import { chatInfo, chatType, commonEventObject, logType } from "../../interfaces/common.interface";
-import { errorCode } from "../../interfaces/interfaces";
-import { logger } from "../../utils/etc";
+import { commonEventObject } from "../../interfaces/common.interface";
 
 const notice: commonEventObject = {
     run: ({ socket, members, rooms }) => {
