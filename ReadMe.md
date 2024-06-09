@@ -32,7 +32,8 @@ More package information is in [package.json](./package.json).
 ## Usage?
 `npm install` to install `GreenZone Socket Server`'s packages.
 And `tsc` to compiles TypeScript code for JavaScript.
-> tsc need `typescript` package for global.
+> tsc need `typescript` package for global.  
+
 Next, create .env file and modify it to fit the .env.dev format.
 And using `npm run start` to start the server.
 
