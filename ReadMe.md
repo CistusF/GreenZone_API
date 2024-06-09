@@ -12,6 +12,7 @@ And using typescript and zod for typings.
 - Common
     - chat
     - log
+    - schedule
 - Coords
     - update
 - Manage

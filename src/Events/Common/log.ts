@@ -1,4 +1,5 @@
 import { commonEventObject } from "../../interfaces/common.interface";
+import { errorCode } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
 
 const notice: commonEventObject = {
@@ -9,7 +10,8 @@ const notice: commonEventObject = {
         if (!room) {
             socket.emit("error", {
                 type: "log",
-                message: "You must joined owner of specified room"
+                message: "You must joined owner of specified room",
+                status: errorCode.common_log_member_room_not_found
             });
             return;
         };

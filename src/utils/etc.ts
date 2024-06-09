@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import { logType } from "../interfaces/interfaces";
+import { logDataType, logType, roomInterface } from "../interfaces/interfaces";
 import chalk from 'chalk';
 
 export const logger = (log: string | string[], title?: string, typeCode?: logType): void => {
@@ -24,5 +24,10 @@ export const logger = (log: string | string[], title?: string, typeCode?: logTyp
                 break;
         };
         console.log(ctx`{bold.${logColor} ✪} [%s / %s] : %s`, title ?? "GreenZone", time, log);
-    }
+    };
+};
+
+export const addLog = (room: roomInterface, logData: logDataType) => {
+    logData.created_at = moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss");
+    room.logs.push(logData);
 };

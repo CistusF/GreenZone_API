@@ -37,6 +37,7 @@ const roomJoin: roomEventObject = {
             room_number: join_user_info.room_number,
             user_name: join_user_info.user_name,
             user_tel: join_user_info.user_tel,
+            status: 0
         });
         socket.join(join_user_info.room_number);
 

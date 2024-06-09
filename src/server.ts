@@ -1,12 +1,12 @@
 import { Socket, Server as SocketServ } from 'socket.io';
 import { Server } from 'http';
-import { roomsInterface, socketMemberType } from './interfaces/interfaces';
+import { roomInterface, socketMemberType } from './interfaces/interfaces';
 import { logger } from './utils/etc';
 import { readdirSync } from 'fs';
 import { roomEventObject } from './interfaces/roomEvent.interface';
 import { coordEventObject } from './interfaces/coordEvent.interface';
 
-const rooms: roomsInterface[] = [];
+const rooms: roomInterface[] = [];
 var members: socketMemberType[] = [];
 
 export class SocketServer {
@@ -25,7 +25,7 @@ export class SocketServer {
         io: SocketServ,
         socket: Socket,
         members: socketMemberType[],
-        rooms: roomsInterface[]
+        rooms: roomInterface[]
     }): Promise<void> {
         const events = readdirSync('./dist/Events', { encoding: 'utf8', withFileTypes: true }).filter(i => i.isDirectory());
         events.forEach(e => {
@@ -63,10 +63,11 @@ export class SocketServer {
     private onDisconnect(socket: Socket, reason: string) {
         const member = members.find(i => i.id === socket.id);
         const room = rooms.find(i => i.room_number === member?.room_number);
-        if (!member || room?.ownerId !== member.id) {
-            logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT", -1);
+        if (!room || !member) return logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT", -1);
+        if (room.ownerId !== member.id) {
             members.splice(members.findIndex(i => i.id === socket.id), 1);
-            return; 
+            logger(`${socket.id} disconnected due to ${reason}`, "DISCONNECT", -1);
+            return;
         };
         this.io.to(room.room_number).emit("room_destroyed", {
             status: 200,

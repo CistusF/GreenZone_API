@@ -1,51 +1,72 @@
 import { Socket } from "socket.io";
 import { coordEventObject } from "../../interfaces/coordEvent.interface";
-import { boundaryType, errorCode, roomsInterface, socketMemberType } from "../../interfaces/interfaces";
-import { logger } from "../../utils/etc";
+import { boundaryType, errorCode, roomInterface, socketMemberType } from "../../interfaces/interfaces";
+import { addLog, logger } from "../../utils/etc";
 import { logType } from "../../interfaces/common.interface";
 
-function haversineDistance({boundary, socket, room, member, owner}: {
+function haversineDistance({ boundary, socket, room, member, owner }: {
     boundary: boundaryType,
     socket: Socket,
-    room: roomsInterface,
+    room: roomInterface,
     member: socketMemberType,
     owner: socketMemberType
 }, lat2: number, lon2: number) {
     // This feature was helped by GPT 3.5
     if (!boundary.x || !boundary.y) return -1;
-    const toRadians = (degree: number) => degree * (Math.PI / 180);
-    const R = 6371; // 지구의 반지름 (킬로미터 단위)
-    const dLat = toRadians(lat2 - boundary.x);
-    const dLon = toRadians(lon2 - boundary.y);
+    // const toRadians = (degree: number) => degree * (Math.PI / 180);
+    // const R = 6371; // 지구의 반지름 (킬로미터 단위)
+    // const dLat = toRadians(lat2 - boundary.x);
+    // const dLon = toRadians(lon2 - boundary.y);
 
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRadians(boundary.x)) * Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    // const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    //     Math.cos(toRadians(boundary.x)) * Math.cos(toRadians(lat2)) *
+    //     Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = Number((R * c * 1000).toFixed(2)); // 킬로미터 단위의 거리
+    // const distance = Number((R * c * 1000).toFixed(2)); // 킬로미터 단위의 거리
 
-    var distance_status = 0
-    if (distance > (boundary.limit! / 2)) {
-        distance_status = 2;
-    } else if (distance > (boundary.safety! / 2)) {
-        distance_status = 1;
+    const radius = 6371; // 지구 반지름(km)
+    const toRadian = Math.PI / 180;
+
+    const deltaLat = Math.abs(lat2 - boundary.x) * toRadian;
+    const deltaLng = Math.abs(lon2 - boundary.y) * toRadian;
+
+    const squareSinDeltLat = Math.pow(Math.sin(deltaLat / 2), 2);
+    const squareSinDeltLng = Math.pow(Math.sin(deltaLng / 2), 2);
+
+    const squareRoot = Math.sqrt(
+        squareSinDeltLat +
+        Math.cos(lat2 * toRadian) *
+        Math.cos(boundary.x * toRadian) *
+        squareSinDeltLng,
+    );
+
+    const distance = (2 * radius * Math.asin(squareRoot) * 1000);
+    console.log(distance);
+    let member_status_updated = false;
+    if (distance > (boundary.limit! / 2) && member.status !== 2) {
+        member.status = 2;
+        member_status_updated = true;
+    } else if (distance < (boundary.limit! / 2) && distance > (boundary.safety! / 2) && member.status !== 1) {
+        member.status = 1;
+        member_status_updated = true;
+    } else if (distance < (boundary.safety! / 2) && member.status !== 0) {
+        member.status = 0;
     };
 
-    if (distance_status !== 0) {
+    if (member_status_updated && member.status !== 0) {
         socket.emit("event", {
             status: 200,
             type: "warning",
-            distance_status
+            distance_status: member.status
         });
-        room.logs.push({
+        addLog(room, {
             type: logType.warning,
             from: member.user_tel,
             to: owner.user_name,
-            message: distance_status,
-            created_at: new Date()
+            message: member.status
         });
-        logger("Member is now out of room's boundary / status: " + distance_status + " / dis: " + distance, "MANAGE", -1);
+        logger("Member is now out of room's boundary / status: " + member.status + " / dis: " + distance, "MANAGE", -1);
     };
     return distance;
 };
@@ -79,8 +100,8 @@ const coordsUpdate: coordEventObject = {
                 room,
                 member: memberData,
                 owner: ownerMember
-            }, 
-            ownerMember.x!, ownerMember.y!);
+            },
+                ownerMember.x!, ownerMember.y!);
             const roomMembersData = roomMembers.filter(i => i.id !== ownerMember.id).map(({ user_name, user_tel, x, y }) => {
                 return {
                     user_name,

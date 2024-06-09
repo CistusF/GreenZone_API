@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { roomsInterface } from "../../interfaces/interfaces";
+import { roomInterface } from "../../interfaces/interfaces";
 import { logger } from "../../utils/etc";
 import { RoomInfo, joinUserInfoType, roomEventObject, roomInfoType } from "../../interfaces/roomEvent.interface";
 
@@ -39,7 +39,8 @@ const createRoom: roomEventObject = {
             id: socket.id,
             user_name: "방장",
             user_tel: room_info.tel,
-            room_number: roomId
+            room_number: roomId,
+            status: 0
         });
 
         socket.emit("room_create_response", {
@@ -53,7 +54,7 @@ const createRoom: roomEventObject = {
 };
 
 // Create Room Number
-const createRoomNumber = (socket: Socket, rooms: roomsInterface[]): string => {
+const createRoomNumber = (socket: Socket, rooms: roomInterface[]): string => {
     var room_number: number | string = Math.floor(Math.random() * 999999);
     room_number = String(room_number);
 

@@ -1,8 +1,8 @@
-import { chatInfo, chatType, commonEventObject, logType } from "../../interfaces/common.interface";
+import { chatInfo, chatType, commonEventObject, logType, scheduleType } from "../../interfaces/common.interface";
 import { errorCode } from "../../interfaces/interfaces";
-import { logger } from "../../utils/etc";
+import { addLog, logger } from "../../utils/etc";
 
-function isChatType(obj: chatType): obj is chatType {
+function isChatType(obj: chatType | scheduleType | null): obj is chatType {
     if (typeof obj != "object") return false;
     try {
         chatInfo.parse(obj);
@@ -14,11 +14,10 @@ function isChatType(obj: chatType): obj is chatType {
 
 const notice: commonEventObject = {
     run: ({ io, socket, members, rooms }, chat) => {
-        if (!chat || !isChatType(chat)) return;
-        const created_at = new Date();
-
         const memberData = members.find(i => i.id === socket.id)!;
         const room = rooms.find(i => i.room_number === memberData.room_number);
+        if (!chat || !isChatType(chat) || !room) return;
+
 
         const { to, from } = {
             to: chat.to,
@@ -37,12 +36,11 @@ const notice: commonEventObject = {
                     to: "all",
                     message: chat.message
                 });
-                room?.logs.push({
+                addLog(room, {
                     from: memberData.user_tel,
                     to: 'all',
                     message: chat.message,
                     type: logType.notice,
-                    created_at
                 });
                 logger(["Notification has been sent", "message : " + chat.message], "CHAT", 1);
             };
@@ -67,12 +65,11 @@ const notice: commonEventObject = {
                 message: "successfully sent"
             });
 
-            room?.logs.push({
+            addLog(room, {
                 from,
                 to,
                 message: chat.message,
                 type: logType.chat,
-                created_at
             });
 
             logger([from + " sent " + chat.message + " to " + to], "CHAT", 1);

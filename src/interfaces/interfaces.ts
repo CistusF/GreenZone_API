@@ -1,5 +1,6 @@
 import { Socket, Server } from "socket.io";
 import z from "zod";
+import { coordStatus } from "./coordEvent.interface";
 
 export enum logType {
     error = -1,
@@ -40,6 +41,13 @@ export enum errorCode {
     // chat
     common_chat_permission_missing = 580,
     common_chat_member_not_found,
+
+    // log
+    common_log_member_room_not_found = 590,
+
+    // schedule
+    common_schedule_member_room_not_found = 600,
+    common_schedule_wrong_data
 };
 
 export const boundaryInfo = z.object({
@@ -50,18 +58,21 @@ export const boundaryInfo = z.object({
 });
 export type boundaryType = z.infer<typeof boundaryInfo>;
 
-export interface roomsInterface {
+export const logDataInfo = z.object({
+    type: z.number(),
+    from: z.string(),
+    to: z.string(),
+    title: z.string().optional(),
+    message: z.union([z.string(), z.number()]),
+    created_at: z.string().optional()
+});
+export type logDataType = z.infer<typeof logDataInfo>;
+export interface roomInterface {
     ownerId: string,
     room_number: string;
     title: string;
     boundary: boundaryType;
-    logs: {
-        type: number;
-        from: string;
-        to: string;
-        message: string | number;
-        created_at: Date;
-    }[]
+    logs: logDataType[];
 };
 
 // Park Seonu<harusame3144@users.noreply.github.com> help class to zod
@@ -71,7 +82,8 @@ export const socketMember = z.object({
     user_tel: z.string(),
     x: z.number().optional(),
     y: z.number().optional(),
-    room_number: z.string()
+    room_number: z.string(),
+    status: z.nativeEnum(coordStatus)
 });
 export type socketMemberType = z.infer<typeof socketMember>;
 
@@ -80,7 +92,7 @@ export type EventObject<T> = {
         io: Server
         socket: Socket,
         members: socketMemberType[],
-        rooms: roomsInterface[]
+        rooms: roomInterface[]
     },
         args: T) => void;
 };
