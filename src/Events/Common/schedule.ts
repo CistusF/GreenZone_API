@@ -61,7 +61,8 @@ const notice: commonEventObject = {
                     from: member!.user_tel,
                     to: 'all',
                     message: schedule_type + " " + title,
-                    type: logType.schedule
+                    type: logType.schedule,
+                    title
                 });
                 logger(schedule_type + " Event is sended / " + title, "SCHEDULE", 0);
             });

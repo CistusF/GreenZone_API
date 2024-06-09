@@ -28,6 +28,10 @@ And using typescript and zod for typings.
     - join
     - leave
 
+## Usage?
+`npm install` to install `GreenZone Socket Server`'s packages.
+and `tsc` to 
+
 ## TODO?
 - [x] Add set title feature
 - [x] Add set safe area feature
