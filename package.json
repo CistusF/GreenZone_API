@@ -1,6 +1,6 @@
 {
-  "name": "greenzone",
-  "version": "0.5.2",
+  "name": "greenzone_socket_server",
+  "version": "1.4.14",
   "main": "src/index.ts",
   "scripts": {
     "test": "ts-node ./test/$FILE.test.ts",
@@ -17,7 +17,7 @@
   ],
   "author": "CistusF",
   "license": "ISC",
-  "description": "JJ University development submission project / Mobile Project - GreenZone's API source repository",
+  "description": "JJ University development submission project / Mobile Project - GreenZone Socket Server source repository",
   "dependencies": {
     "@types/ws": "^8.5.10",
     "chalk": "^4.0.0",
