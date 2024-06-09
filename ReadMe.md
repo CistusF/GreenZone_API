@@ -35,7 +35,7 @@ And using typescript and zod for typings.
 - [x] Add send warning feature
 - [x] Add kick member feature
 - [x] Add destroy room feature
-- [ ] Add Event Message feature
+- [x] Add Event Message feature
 - [x] Add Chat feature
 - [x] Add Logs sender feature
 - [ ] ~~Add get special member infomation feature~~
