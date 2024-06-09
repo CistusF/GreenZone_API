@@ -60,7 +60,7 @@ const notice: commonEventObject = {
                 addLog(room, {
                     from: member!.user_tel,
                     to: 'all',
-                    message: schedule_type + " " + title,
+                    message: schedule_type,
                     type: logType.schedule,
                     title
                 });
