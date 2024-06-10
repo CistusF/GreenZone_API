@@ -1,10 +1,12 @@
+import { logType } from "../../interfaces/common.interface";
 import { errorCode } from "../../interfaces/interfaces";
 import { manageEventObject } from "../../interfaces/manageEvent.interface";
-import { logger } from "../../utils/etc";
+import { addLog, logger } from "../../utils/etc";
 
 const kick: manageEventObject = {
-    run: ({ socket, rooms, members }, user_tel) => {
+    run: ({ io, socket, rooms, members }, user_tel) => {
         const target = members.find(i => i.user_tel === user_tel);
+        const room = rooms.find(i => i.room_number === target?.room_number);
 
         if (rooms.findIndex(i => i.ownerId === socket.id) === -1) {
             socket.emit("manage_kick_response", {
@@ -25,6 +27,8 @@ const kick: manageEventObject = {
             return;
         };
 
+        const room_owner = members.find(i => i.id === room!.ownerId)!;
+
         members.splice(members.indexOf(target), 1);
         socket.to(target.id).emit("event", {
             status: 200,
@@ -32,10 +36,20 @@ const kick: manageEventObject = {
             message: "You are now not a member of this room."
         });
 
+        io.to(target.id).socketsLeave(room!.room_number);
+
         socket.emit("event", {
             status: 201,
             type: "kick",
-            message: "Member " + target.user_name + " has been kicked."
+            user_name: target.user_name,
+            user_tel: target.user_tel
+        });
+
+        addLog(room!, {
+            from: "system",
+            to: room_owner.user_tel,
+            message: target.user_name,
+            type: logType.kick,
         });
 
         logger(target.id + " kicked from " + target.room_number, "MANAGE", 1);

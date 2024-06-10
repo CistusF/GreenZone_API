@@ -5,7 +5,9 @@ export enum logType {
     warning,
     notice,
     chat,
-    schedule
+    schedule,
+    leave,
+    kick
 };
 
 export enum scheduleStatus {
