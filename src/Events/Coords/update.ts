@@ -63,7 +63,7 @@ function haversineDistance({ boundary, socket, room, member, owner }: {
         addLog(room, {
             type: logType.warning,
             from: member.user_tel,
-            to: owner.user_name,
+            to: owner.user_tel,
             message: member.status
         });
         logger("Member is now out of room's boundary / status: " + member.status + " / dis: " + distance, "MANAGE", -1);
@@ -78,11 +78,7 @@ const coordsUpdate: coordEventObject = {
         const roomMembers = members.filter(i => i.room_number == memberData?.room_number);
         const ownerMember = roomMembers?.find(i => i.id == room?.ownerId)!;
 
-        if (!memberData) return socket.emit("error", {
-            type: "coords_update",
-            status: errorCode.coords_update_member_not_found,
-            message: "Couldn't find member with id " + socket.id
-        });
+        if (!memberData) return;
 
         if (!room) return socket.emit("error", {
             type: "coords_update",
